@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon/favicon-16x16.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <title>Pokedex</title>
+</head>
+<body>
+    <!-- englobar meu conteudo -->
+    <main>
+        <!-- imagem -->
+        <img src="#" alt="pokemon" class="pokemon">
+        <!-- titulo -> nome do pokemon mais seu numero -->
+        <h1 class="data_pokemon">
+            <span class="pokemon_number"></span>
+            <span class="pokemon_name"></span>
+        </h1>
+        <form class="form">
+            <input type="search" class="search_pokemon" placeholder="Name or Number" required>
+        </form>
+        <div class="butons">
+            <button class="button prev-button">Prev &lt;</button>
+            <button class="button next-button">Next &gt;</button>
+            <button class="button info-button">Info</button>
+        </div>
+
+        <div class="ativo">
+            <div class="status">
+                <span class="texto type_status">type:</span>
+                <span class=" texto hp_status">hp:</span>
+                <span class="texto attack">attack</span>
+                <span class="texto defense_status">defense:</span>
+                <span class="texto special_attack">special attack</span>
+            </div>
+        </div>
+        <button class="exit"><i class="fa-solid fa-xmark"></i></button>
+        <!-- imagem -->
+        <img src="images/pokedex.png" alt="pokedex" class="pokedex">
+        
+    </main>
+</body>
+<script src="script.js"></script>
+<script src="https://kit.fontawesome.com/d72d1c8b4e.js" crossorigin="anonymous"></script>
+
+</html>
