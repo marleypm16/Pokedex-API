@@ -31,16 +31,16 @@ const attack = document.querySelector(".attack");
 let search = 1;
 
 class Pokemon {
-  constructor(id, nome, tipo, hp, attack, special, speed, defense, imagem) {
+  constructor(id, name, type, hp, attack, special, speed, defense, image) {
     this.id = id;
-    this.nome = nome;
-    this.tipo = tipo;
+    this.nome = name;
+    this.tipo = type;
     this.hp = hp;
     this.attack = attack;
     this.special = special;
     this.speed = speed;
     this.defense = defense;
-    this.imagem = imagem;
+    this.image = image;
   }
 }
 
@@ -50,19 +50,18 @@ const get_pokemon_api = async (pokemon) => {
 
   if (fetch_api.status == 200) {
     const data = await fetch_api.json();
-    console.log(data);
     return data;
   }
 };
 
 const displayPokemon = (pokemon) => {
   pokemon_image.style.display = "block";
-  pokemonName.innerHTML = pokemon.nome;
+  pokemonName.innerHTML = pokemon.name;
   pokemonId.innerHTML = pokemon.id + " -";
   search = pokemon.id;
-  pokemon_image.src = pokemon.imagem;
+  pokemon_image.src = pokemon.image;
   input.value = "";
-  type_status.innerHTML = "Type : " + pokemon.tipo;
+  type_status.innerHTML = "Type : " + pokemon.type;
   hp_status.innerHTML = "Hp :" + pokemon.hp;
   attack.innerHTML = "Attack : " + pokemon.attack;
   defense.innerHTML = "Defense : " + pokemon.defense;
@@ -72,10 +71,9 @@ const displayPokemon = (pokemon) => {
 const show_pokemon = async (pokemon) => {
   const data = await get_pokemon_api(pokemon);
   pokemonName.innerHTML = "Loading...";
-  console.log(data);
 
   if (data) {
-    const pokemonInstance = new Pokemon(
+    const pokemon = new Pokemon(
       data.id,
       data.name,
       data["types"][0]["type"]["name"],
@@ -89,7 +87,7 @@ const show_pokemon = async (pokemon) => {
       ]
     );
 
-    displayPokemon(pokemonInstance);
+    displayPokemon(pokemon);
   } else {
     pokemon_image.style.display = "none";
     pokemonName.innerHTML = "not found";
