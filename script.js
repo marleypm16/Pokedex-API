@@ -1,126 +1,135 @@
-const pokemonName=document.querySelector('.pokemon_name');
+const pokemonName = document.querySelector(".pokemon_name");
 
+const pokemonId = document.querySelector(".pokemon_number");
 
+const pokemon_image = document.querySelector(".pokemon");
 
-const pokemonId=document.querySelector('.pokemon_number')
+const form = document.querySelector(".form ");
 
+const input = document.querySelector(".search_pokemon");
 
-const pokemon_image=document.querySelector('.pokemon')
+const button_prev = document.querySelector(".prev-button");
 
-const form = document.querySelector('.form ')
+const button_next = document.querySelector(".next-button");
 
-const input = document.querySelector('.search_pokemon')
+const info_button = document.querySelector(".info-button");
 
-const button_prev = document.querySelector('.prev-button')
+const dados = document.querySelector(".ativo");
 
-const button_next = document.querySelector('.next-button')
+const type_status = document.querySelector(".type_status");
 
-const info_button = document.querySelector('.info-button')
+const exit = document.querySelector(".exit");
 
-const dados =document.querySelector('.ativo')
+const hp_status = document.querySelector(".hp_status");
 
-const type_status = document.querySelector('.type_status')
+const defense = document.querySelector(".defense_status");
 
-const exit =document.querySelector('.exit')
+const special_attack = document.querySelector(".special_attack");
 
-const hp_status = document.querySelector('.hp_status')
+const attack = document.querySelector(".attack");
 
-const defense = document.querySelector('.defense_status')
+let search = 1;
 
-const special_attack = document.querySelector('.special_attack')
-
-const attack = document.querySelector('.attack')
-
-
-let search = 1
-
-
-const get_pokemon_api = async (pokemon) =>{
-    const fetch_api = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}
-    `
-    )
-
-    console.log(fetch_api)
-
-    if (fetch_api.status == 200){
-        const data = await fetch_api.json()
-    
-        return data
-
-
-}
+class Pokemon {
+  constructor(id, nome, tipo, hp, attack, special, speed, defense, imagem) {
+    this.id = id;
+    this.nome = nome;
+    this.tipo = tipo;
+    this.hp = hp;
+    this.attack = attack;
+    this.special = special;
+    this.speed = speed;
+    this.defense = defense;
+    this.imagem = imagem;
+  }
 }
 
+const get_pokemon_api = async (pokemon) => {
+  const fetch_api = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}
+    `);
 
-const show_pokemon = async (pokemon) =>{
-    const data = await get_pokemon_api(pokemon);
-    pokemonName.innerHTML = 'Loading...'
+  if (fetch_api.status == 200) {
+    const data = await fetch_api.json();
+    console.log(data);
+    return data;
+  }
+};
 
-    if (data) {
-        pokemon_image.style.display = 'block'
-        pokemonName.innerHTML = data.name;
-        pokemonId.innerHTML = data.id + ' -'
-        search = data.id
-        pokemon_image.src= await data['sprites']['versions']['generation-v']['black-white']['animated']['front_default']
-        input.value=''
-        type_status.innerHTML = 'Type : '+data['types']['0']['type']['name']
-        hp_status.innerHTML = 'Hp :' + data['stats']['0']['base_stat']
-        attack.innerHTML = 'Attack : '+ data['stats']['1']['base_stat']
-        defense.innerHTML = 'Defense : ' + data['stats']['2']['base_stat']
-        special_attack.innerHTML = 'Special Attack: ' +  data['stats']['3']['base_stat']
- 
-    }
-    else{
-        pokemon_image.style.display = 'none'
-        pokemonName.innerHTML= 'not found'
-        pokemonId.innerHTML = ''
-    }
-    }
+const displayPokemon = (pokemon) => {
+  pokemon_image.style.display = "block";
+  pokemonName.innerHTML = pokemon.nome;
+  pokemonId.innerHTML = pokemon.id + " -";
+  search = pokemon.id;
+  pokemon_image.src = pokemon.imagem;
+  input.value = "";
+  type_status.innerHTML = "Type : " + pokemon.tipo;
+  hp_status.innerHTML = "Hp :" + pokemon.hp;
+  attack.innerHTML = "Attack : " + pokemon.attack;
+  defense.innerHTML = "Defense : " + pokemon.defense;
+  special_attack.innerHTML = "Special Attack: " + pokemon.special;
+};
 
+const show_pokemon = async (pokemon) => {
+  const data = await get_pokemon_api(pokemon);
+  pokemonName.innerHTML = "Loading...";
+  console.log(data);
 
+  if (data) {
+    const pokemonInstance = new Pokemon(
+      data.id,
+      data.name,
+      data["types"][0]["type"]["name"],
+      data["stats"][0]["base_stat"],
+      data["stats"][1]["base_stat"],
+      data["stats"][3]["base_stat"],
+      data["stats"][5]["base_stat"],
+      data["stats"][2]["base_stat"],
+      data["sprites"]["versions"]["generation-v"]["black-white"]["animated"][
+        "front_default"
+      ]
+    );
 
-form.addEventListener('submit',(event) =>{
-    event.preventDefault()
-    
-    show_pokemon(input.value.toLowerCase())
-})
+    displayPokemon(pokemonInstance);
+  } else {
+    pokemon_image.style.display = "none";
+    pokemonName.innerHTML = "not found";
+    pokemonId.innerHTML = "";
+  }
+};
 
-button_prev.addEventListener('click',() =>{
-    if (search > 1){
-    search-=1
-    show_pokemon(search)
-    }
-    
-  
-})
-button_next.addEventListener('click',() =>{
-   
-        search+= 1
-        show_pokemon(search)
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
 
+  show_pokemon(input.value.toLowerCase());
+});
 
-})
+button_prev.addEventListener("click", () => {
+  if (search > 1) {
+    search -= 1;
+    show_pokemon(search);
+  }
+});
+button_next.addEventListener("click", () => {
+  search += 1;
+  show_pokemon(search);
+});
 
-info_button.addEventListener('click',() =>{
-    dados.style.visibility = 'visible'
-    input.style.visibility = 'hidden'
-    button_prev.style.visibility = 'hidden'
-    button_next.style.visibility = 'hidden'
-    info_button.style.visibility = 'hidden'
-    exit.style.visibility = 'visible'
-  
-})
+info_button.addEventListener("click", () => {
+  dados.style.visibility = "visible";
+  input.style.visibility = "hidden";
+  button_prev.style.visibility = "hidden";
+  button_next.style.visibility = "hidden";
+  info_button.style.visibility = "hidden";
+  exit.style.visibility = "visible";
+});
 
-exit.addEventListener('click', 
-() =>{
-    input.style.visibility = 'visible'
-    button_prev.style.visibility = 'visible'
-    button_next.style.visibility = 'visible'
-    info_button.style.visibility = 'visible'
-    exit.style.visibility = 'hidden'
-    dados.style.visibility = 'hidden'
-})
+exit.addEventListener("click", () => {
+  input.style.visibility = "visible";
+  button_prev.style.visibility = "visible";
+  button_next.style.visibility = "visible";
+  info_button.style.visibility = "visible";
+  exit.style.visibility = "hidden";
+  dados.style.visibility = "hidden";
+});
 
-
-
-show_pokemon(search)
+show_pokemon(search);

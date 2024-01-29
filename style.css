@@ -37,7 +37,6 @@ main{
 .data_pokemon{
     position: absolute;
     color: rgb(112, 112, 112);
-    /* apenas a primeira letra em maiusculo */
     font-weight: 600;
     bottom: 40%;
     right: 27%;
@@ -45,6 +44,7 @@ main{
 }
 
 .pokemon_name{
+    /* apenas a primeira letra em maiusculo */
     text-transform: capitalize; 
     color: #3a444d;
 
